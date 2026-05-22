@@ -12,6 +12,7 @@ from tools.query_resource_data import register_query_resource_data_tool
 from tools.search_dataservices import register_search_dataservices_tool
 from tools.search_datasets import register_search_datasets_tool
 from tools.search_organizations import register_search_organizations_tool
+from tools.list_topic_elements import register_list_topic_elements_tool
 
 
 def register_tools(mcp: FastMCP) -> None:
@@ -26,3 +27,4 @@ def register_tools(mcp: FastMCP) -> None:
     register_list_dataset_resources_tool(mcp)
     register_get_resource_info_tool(mcp)
     register_get_metrics_tool(mcp)
+    register_list_topic_elements_tool(mcp)
