@@ -29,11 +29,9 @@ def register_list_topic_elements_tool(mcp: FastMCP) -> None:
         page = max(page, 1)
         page_size = min(max(page_size, 1), 100)
 
-        return await datagouv_api_client.get(
-            f"/api/2/topics/{topic_id}/elements/",
-            params={
-                "page": page,
-                "page_size": page_size,
-                "class": class_,
-            },
+        return await datagouv_api_client.get_topic_elements(
+            topic_id=topic_id,
+            page=page,
+            page_size=page_size,
+            class_name=class_,
         )

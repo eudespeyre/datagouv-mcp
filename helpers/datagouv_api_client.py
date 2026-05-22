@@ -443,3 +443,38 @@ async def search_organizations(
     finally:
         if own:
             await session.aclose()
+            
+async def get_topic_elements(
+    topic_id: str,
+    page: int = 1,
+    page_size: int = 20,
+    class_name: str | None = "Dataset",
+    session: httpx.AsyncClient | None = None,
+) -> dict[str, Any]:
+    """
+    Fetch elements attached to a data.gouv.fr topic.
+    """
+
+    own = session is None
+    if own:
+        session = httpx.AsyncClient(headers={"User-Agent": USER_AGENT})
+    assert session is not None
+
+    try:
+        base_url: str = env_config.get_base_url("datagouv_api")
+        url = f"{base_url}2/topics/{topic_id}/elements/"
+        params: dict[str, Any] = {
+            "page": page,
+            "page_size": min(page_size, 100),
+        }
+
+        if class_name:
+            params["class"] = class_name
+
+        resp = await session.get(url, params=params, timeout=15.0)
+        resp.raise_for_status()
+        return resp.json()
+
+    finally:
+        if own:
+            await session.aclose()
