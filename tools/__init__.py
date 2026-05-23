@@ -13,6 +13,7 @@ from tools.search_dataservices import register_search_dataservices_tool
 from tools.search_datasets import register_search_datasets_tool
 from tools.search_organizations import register_search_organizations_tool
 from tools.list_topic_elements import register_list_topic_elements_tool
+from tools.get_topic_catalog import register_get_topic_catalog_tool
 
 
 def register_tools(mcp: FastMCP) -> None:
@@ -28,3 +29,5 @@ def register_tools(mcp: FastMCP) -> None:
     register_get_resource_info_tool(mcp)
     register_get_metrics_tool(mcp)
     register_list_topic_elements_tool(mcp)
+    register_get_topic_catalog_tool(mcp)
+
