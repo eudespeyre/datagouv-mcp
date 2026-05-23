@@ -443,7 +443,32 @@ async def search_organizations(
     finally:
         if own:
             await session.aclose()
-            
+
+
+async def get_topic_details(
+    topic_id: str, session: httpx.AsyncClient | None = None
+) -> dict[str, Any]:
+    """
+    Fetch the complete topic payload from the API v2 endpoint.
+
+    The returned payload includes the topic's `extras` field, which
+    may contain conventions such as `extras.mcp.catalog_dataset_id`
+    used to declare a contextualization catalog associated with the
+    topic.
+    """
+    own = session is None
+    if own:
+        session = httpx.AsyncClient(headers={"User-Agent": USER_AGENT})
+    assert session is not None
+    try:
+        base_url: str = env_config.get_base_url("datagouv_api")
+        url = f"{base_url}2/topics/{topic_id}/"
+        return await _fetch_json(session, url)
+    finally:
+        if own:
+            await session.aclose()
+
+
 async def get_topic_elements(
     topic_id: str,
     page: int = 1,
