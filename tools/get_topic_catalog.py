@@ -30,13 +30,13 @@ def register_get_topic_catalog_tool(mcp: FastMCP) -> None:
         - status: "ok" if the catalog is declared and accessible,
           otherwise "no_catalog_declared" or "catalog_unreachable"
         """
-        topic = await datagouv_api_client.get_topic(topic_id)
-        
-        extras = topic.get("extras", {})
-        mcp_extras = extras.get("mcp", {})
+        topic = await datagouv_api_client.get_topic_details(topic_id)
+
+        extras = topic.get("extras") or {}
+        mcp_extras = extras.get("mcp") or {}
         catalog_dataset_id = mcp_extras.get("catalog_dataset_id")
         catalog_version = mcp_extras.get("version")
-        
+
         if not catalog_dataset_id:
             return {
                 "status": "no_catalog_declared",
@@ -48,9 +48,9 @@ def register_get_topic_catalog_tool(mcp: FastMCP) -> None:
                     "directly."
                 ),
             }
-        
+
         try:
-            dataset = await datagouv_api_client.get_dataset(
+            dataset = await datagouv_api_client.get_dataset_details(
                 catalog_dataset_id
             )
         except Exception as exc:
@@ -60,7 +60,7 @@ def register_get_topic_catalog_tool(mcp: FastMCP) -> None:
                 "catalog_dataset_id": catalog_dataset_id,
                 "error": str(exc),
             }
-        
+
         resources = [
             {
                 "title": r.get("title"),
@@ -71,7 +71,7 @@ def register_get_topic_catalog_tool(mcp: FastMCP) -> None:
             }
             for r in dataset.get("resources", [])
         ]
-        
+
         return {
             "status": "ok",
             "topic_id": topic_id,
