@@ -398,7 +398,7 @@ The MCP server provides tools to interact with data.gouv.fr datasets and third-p
 
   Note: Recommended workflow: 1) Use `search_datasets` to find the dataset, 2) Use `list_dataset_resources` to see available resources, 3) Use `query_resource_data` with default `page_size` (20) to preview data structure. For small datasets (<500 rows), increase `page_size` or paginate. For large datasets (>1000 rows), continue paginating or use `get_resource_info` to retrieve the raw file URL and fetch it directly. Works for CSV/XLS resources within Tabular API size limits (CSV ≤ 100 MB, XLSX ≤ 12.5 MB).
 
-### Topics (thematic perimeters)
+### Topics
 
 - **`search_topics`** - Search thematic topics on data.gouv.fr by keywords. Returns topics with their slug, description, organization, tags and whether a contextualization catalog is declared.
 
